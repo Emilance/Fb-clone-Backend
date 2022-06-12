@@ -6,20 +6,24 @@ import bodyParser from "body-parser";
 import PostRoutes from './routes/post.js'
 import UserRoutes from './routes/user.js'
 import AuthRoutes from './routes/auth.js'
-
+import cookieParser from "cookie-parser";
 
 
 const app = express()
 
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    credentials:true
+}));
 
 //middleware
 app.use(bodyParser.json({limit: "20mb", extended: true}))
 app.use(bodyParser.urlencoded({limit: "20mb", extended: true}))
+app.use(cookieParser())
 
-app.use('/posts', PostRoutes)
+app.use('/posts', PostRoutes);
 app.use("/api/user", UserRoutes);
-app.use("/api/auth", AuthRoutes)
+app.use("/api/auth", AuthRoutes);
 
 
 

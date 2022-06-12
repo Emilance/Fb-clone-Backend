@@ -8,7 +8,8 @@ const postSchema  = mongoose.Schema({
     time: {
         type:String,
         default:Date.now()
-    }
+    },
+    postImage : String 
 })
 
 const post = mongoose.model("post", postSchema );

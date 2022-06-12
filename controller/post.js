@@ -3,7 +3,9 @@ import PostData from "../models/post.js"
 export const getPost = async (req, res) => {
    try{
        const allPost = await PostData.find()
-       res.status(200).json(allPost)
+       const sortedPost = await  allPost.sort((a, b) => b.time - a.time)
+       
+       res.status(200).json(sortedPost)
     
    }catch(err){
        res.status(404).json({message:err.message})
@@ -14,13 +16,13 @@ export const getPost = async (req, res) => {
 export const createPost =async (req, res) => {
     var post = req.body;
    
-    const newPost = new PostData(post);
-    console.log(req.body)
+    const newPost = new PostData({...post, postImage:req.file.originalname});
+  
 
 
     try {
        await newPost.save();
-       console.log(newPost)
+       
        res.status(201).json(newPost)
        
     } catch (error) {
@@ -39,3 +41,22 @@ export const deletePost= async (req, res)=> {
         console.log(error);
     }
 }
+
+
+
+
+
+
+// const allPost = await PostData.find((err, data)=>{
+//     if(err){
+//         res.status(500).json(err);
+//     }else{
+//         data.sort((b, a)=>{
+//             return a.time -b.time;
+//         })
+
+
+        
+//         res.status(200).json(data)
+//     }
+// })

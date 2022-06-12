@@ -18,8 +18,7 @@ router.post("/", async (req, res)=> {
 
 
         }
-        const tt =await User.find()
-        console.log(tt.email)
+
         const user = await User.findOne({email: req.body.email})
         if(!user){
             return res.status(401).send({message:"Invalid Email or Password"});
@@ -32,8 +31,9 @@ router.post("/", async (req, res)=> {
             return res.status(401).send({message :"invalid Email or Password"})
         }
         const token = user.generateAuthToken();
-        res.status(200).send({data : token, message:"logged in successfully"})
         
+        res.status(200).send({data : token, message:"logged in successfully"})
+         
     } catch (error) {
         res.status(500).send({message : "internal sever Error"})
     }
@@ -51,8 +51,6 @@ const validate= (data) => {
 
     return schema.validate(data)
 }
-
-
 
 
 export default router

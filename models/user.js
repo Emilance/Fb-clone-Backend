@@ -1,14 +1,18 @@
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import Joi from "joi";
 import passwordComplexity from "joi-password-complexity"
 
 const complexityOptions ={
-    min :2,
+    min :3,
     max:30
 }
 
 const userSchema = mongoose.Schema({
+    dayOfBirth: Number,
+    monthOfBirth:String,
+    yearOfBirth:Number,
+    gender:String,
     firstName: {
         type:String,
         require: true
@@ -25,10 +29,6 @@ const userSchema = mongoose.Schema({
         type:String,
         require: true
     }
-    // dayOfBirth: Number,
-    // monthOfBirth:String,
-    // yearOBirth:Number,
-    // gender:String
 
 });
 
@@ -39,6 +39,7 @@ userSchema.methods.generateAuthToken = function(){
     return token
 }
 
+
 export const User = mongoose.model("user", userSchema);
 
 export const validate = (data) => {
@@ -46,8 +47,11 @@ export const validate = (data) => {
         firstName:  Joi.string().required().label("FirstName"),
         surName:  Joi.string().required().label("SurName"),
         email:  Joi.string().email().required().label("email"),
-        password: passwordComplexity(complexityOptions).required().label("Password")
-
+        password: passwordComplexity(complexityOptions).required().label("Password"),
+        dayOfBirth: Joi.number().label("day of Birth"),
+        monthOfBirth:Joi.string().label("month of birth"),
+        yearOfBirth: Joi.number().label("year of Birth"),
+        gender:Joi.string().label("gender"),
 
     })
 
