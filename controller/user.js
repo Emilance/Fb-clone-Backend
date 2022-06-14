@@ -12,7 +12,7 @@ export const postUser =  async (req, res)=> {
        }
     const user =await User.findOne({email: userData.email});
     if(user){
-         return res.status(409).send({message: "User with given email alrady exist"})
+         return res.status(409).send({message: "User with given email already exist"})
     }
     const salt = await bcrypt.genSalt();
     const hashPassword= await bcrypt.hash(userData.password, salt);
@@ -23,7 +23,7 @@ export const postUser =  async (req, res)=> {
     res.cookie("token", token, {
       httpOnly:true,
     })
-    .status(201).json({newUser})
+    .status(201).json(newUser._id)
    } catch (error) {
        res.status(500).send({message : "internal sever error"})
    }
@@ -45,10 +45,16 @@ export const  getisLoggedinValue = async (req, res)=> {
 
 export const getUser= async (req, res) => {
   try {
-    console.log(req);
-    const allUser=await User.find()
-    // const allUser=await User.findById(req.params.id);
-   res.status(200).json(allUser)
+    if(req.params.id){
+      console.log(req.param.id);
+      const userInfo=await User.findById(req.params.id);
+     res.status(200).json(userInfo);
+
+    }
+    else{
+      res.status.send("no parameter specify")
+      console.log("no parameter specify")
+    }
   } catch (error) {
     res.status(404).json({message :error.message})
   }

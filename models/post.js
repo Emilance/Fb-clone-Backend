@@ -9,7 +9,7 @@ const postSchema  = mongoose.Schema({
         type:String,
         default:Date.now()
     },
-    postImage : String 
+    postImage : String
 })
 
 const post = mongoose.model("post", postSchema );

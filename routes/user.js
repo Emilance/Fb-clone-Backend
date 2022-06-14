@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/", postUser)
 
 router.get("/loggedIn", getisLoggedinValue)
-router.get("/userInfo/",  getUser)
+router.get("/userInfo/:id",  getUser)
 
 export default router
